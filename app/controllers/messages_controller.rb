@@ -1,9 +1,9 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:edit, :update]
+  before_action :set_message, only: [:edit, :update, :destroy]
   
   def index
-    @messages = Message.all
     @message = Message.new
+    @messages = Message.all
   end
 
   def edit
@@ -15,7 +15,7 @@ def update
     redirect_to root_path , notice: 'メッセージを編集しました'
   else
     #保存に失敗した場合は編集画面へ戻す
-    render'edit'
+    render 'edit'
   end
 end
   
@@ -28,7 +28,7 @@ end
 def create
     @message = Message.new(message_params)
     if @message.save
-      redirect_to root_path, notice: 'メッセージを保存しました'
+      redirect_to root_path , notice: 'メッセージを保存しました'
     else
       # メッセージが保存できなかった時
       @messages = Message.all
@@ -40,10 +40,11 @@ end
 private
 
   def message_params
-    params.require(:message).permit(:name, :body)
+    params.require(:message).permit(:name, :body, :age)
   end
   
   def set_message
     @message = Message.find(params[:id])
   end
+  
 end
